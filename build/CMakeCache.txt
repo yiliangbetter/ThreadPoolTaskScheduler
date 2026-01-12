@@ -163,7 +163,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Project
+CMAKE_PROJECT_NAME:STATIC=ThreadPoolTaskScheduler
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/opt/homebrew/opt/llvm/bin/llvm-ranlib
@@ -238,6 +238,15 @@ Project_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=/Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler
+
+//Value Computed by CMake
+ThreadPoolTaskScheduler_BINARY_DIR:STATIC=/Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/build
+
+//Value Computed by CMake
+ThreadPoolTaskScheduler_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+ThreadPoolTaskScheduler_SOURCE_DIR:STATIC=/Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler
 
 
 ########################

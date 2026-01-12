@@ -116,6 +116,67 @@ depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+#=============================================================================
+# Target rules for targets named ThreadPoolTaskScheduler
+
+# Build rule for target.
+ThreadPoolTaskScheduler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ThreadPoolTaskScheduler
+.PHONY : ThreadPoolTaskScheduler
+
+# fast build rule for target.
+ThreadPoolTaskScheduler/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/build
+.PHONY : ThreadPoolTaskScheduler/fast
+
+main.o: main.cpp.o
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/main.cpp.s
+.PHONY : main.cpp.s
+
+thread_pool.o: thread_pool.cc.o
+.PHONY : thread_pool.o
+
+# target to build an object file
+thread_pool.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/thread_pool.cc.o
+.PHONY : thread_pool.cc.o
+
+thread_pool.i: thread_pool.cc.i
+.PHONY : thread_pool.i
+
+# target to preprocess a source file
+thread_pool.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/thread_pool.cc.i
+.PHONY : thread_pool.cc.i
+
+thread_pool.s: thread_pool.cc.s
+.PHONY : thread_pool.s
+
+# target to generate assembly for a file
+thread_pool.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/thread_pool.cc.s
+.PHONY : thread_pool.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -124,6 +185,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ThreadPoolTaskScheduler"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
+	@echo "... thread_pool.o"
+	@echo "... thread_pool.i"
+	@echo "... thread_pool.s"
 .PHONY : help
 
 

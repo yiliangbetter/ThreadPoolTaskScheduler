@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <functional>
 #include <mutex>
+#include <queue>
 #include <thread>
 #include <vector>
 
@@ -20,10 +21,11 @@ public:
 private:
   void WorkerThread();
   std::vector<std::thread> workers_;
-  std::vector<std::function<void()>> tasks_;
+  std::queue<std::function<void()>> tasks_;
   std::mutex queue_mutex_;
   std::condition_variable cv_;
   size_t num_threads_;
+  bool stop;
 };
 
 } // namespace ThreadPool

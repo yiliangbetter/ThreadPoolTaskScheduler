@@ -1,4 +1,5 @@
 #include "thread_pool.h"
+#include <utility>
 
 namespace ThreadPool {
 
@@ -10,8 +11,34 @@ ThreadPool::ThreadPool(size_t numThreads) : num_threads_(numThreads) {
   }
 }
 
+ThreadPool::~ThreadPool() {
+  stop = true;
+  cv_.notify_all();
+}
+
 void ThreadPool::WorkerThread() {
   while (true) {
+    std::function<void()> task;
+    {
+      std::unique_lock lck{queue_mutex_};
+      cv_.wait(lck, [&]() { return tasks_.empty() || stop; });
+
+      if (stop && tasks_.empty()) {
+        return;
+      }
+
+      task = std::move(tasks_.front());
+      tasks_.pop();
+    }
+    task();
+  }
+}
+
+void ThreadPool::submit(std::function<void()> task) {
+  {
+    std::scoped_lock lck(queue_mutex_);
+    tasks_.push(task);
+    cv_.notify_one();
   }
 }
 

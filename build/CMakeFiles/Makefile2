@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = /Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/b
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all:
+all: CMakeFiles/ThreadPoolTaskScheduler.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen:
+codegen: CMakeFiles/ThreadPoolTaskScheduler.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,8 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean:
+clean: CMakeFiles/ThreadPoolTaskScheduler.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ThreadPoolTaskScheduler.dir
+
+# All Build rule for target.
+CMakeFiles/ThreadPoolTaskScheduler.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/build/CMakeFiles --progress-num=1,2,3 "Built target ThreadPoolTaskScheduler"
+.PHONY : CMakeFiles/ThreadPoolTaskScheduler.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ThreadPoolTaskScheduler.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ThreadPoolTaskScheduler.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/build/CMakeFiles 0
+.PHONY : CMakeFiles/ThreadPoolTaskScheduler.dir/rule
+
+# Convenience name for target.
+ThreadPoolTaskScheduler: CMakeFiles/ThreadPoolTaskScheduler.dir/rule
+.PHONY : ThreadPoolTaskScheduler
+
+# codegen rule for target.
+CMakeFiles/ThreadPoolTaskScheduler.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/luli/Desktop/HandsOnProjects/ThreadPoolTaskScheduler/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target ThreadPoolTaskScheduler"
+.PHONY : CMakeFiles/ThreadPoolTaskScheduler.dir/codegen
+
+# clean rule for target.
+CMakeFiles/ThreadPoolTaskScheduler.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ThreadPoolTaskScheduler.dir/build.make CMakeFiles/ThreadPoolTaskScheduler.dir/clean
+.PHONY : CMakeFiles/ThreadPoolTaskScheduler.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
