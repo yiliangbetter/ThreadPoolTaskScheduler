@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-  ThreadPool::ThreadPool tp{3};
+  ThreadPool::ThreadPool tp{10};
   auto task1 = []() { std::cout << "I am task one" << std::endl; };
   auto task2 = []() { std::cout << "I am task two" << std::endl; };
   auto task3 = []() { std::cout << "I am task three" << std::endl; };

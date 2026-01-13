@@ -12,8 +12,14 @@ ThreadPool::ThreadPool(size_t numThreads) : num_threads_(numThreads) {
 }
 
 ThreadPool::~ThreadPool() {
-  stop = true;
+  stop_ = true;
   cv_.notify_all();
+
+  for (std::thread &worker : workers_) {
+    if (worker.joinable()) {
+      worker.join();
+    }
+  }
 }
 
 void ThreadPool::WorkerThread() {
@@ -21,9 +27,9 @@ void ThreadPool::WorkerThread() {
     std::function<void()> task;
     {
       std::unique_lock lck{queue_mutex_};
-      cv_.wait(lck, [&]() { return tasks_.empty() || stop; });
+      cv_.wait(lck, [&]() { return tasks_.empty() || stop_; });
 
-      if (stop && tasks_.empty()) {
+      if (stop_ && tasks_.empty()) {
         return;
       }
 
@@ -38,8 +44,8 @@ void ThreadPool::submit(std::function<void()> task) {
   {
     std::scoped_lock lck(queue_mutex_);
     tasks_.push(task);
-    cv_.notify_one();
   }
+  cv_.notify_one();
 }
 
 } // namespace ThreadPool

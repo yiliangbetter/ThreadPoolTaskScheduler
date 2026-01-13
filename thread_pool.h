@@ -25,7 +25,7 @@ private:
   std::mutex queue_mutex_;
   std::condition_variable cv_;
   size_t num_threads_;
-  bool stop;
+  bool stop_;
 };
 
 } // namespace ThreadPool
