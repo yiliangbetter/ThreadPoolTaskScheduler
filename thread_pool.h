@@ -4,9 +4,11 @@
 #include <condition_variable>
 #include <cstddef>
 #include <functional>
+#include <future>
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <type_traits>
 #include <vector>
 
 namespace ThreadPool {
@@ -16,7 +18,8 @@ public:
   explicit ThreadPool(size_t numThreads);
   ~ThreadPool();
 
-  void submit(std::function<void()> task);
+  template <typename F, typename... Args>
+  std::future<std::invoke_result_t<F, Args...>> submit(F &&f, Args &&...args);
 
 private:
   void WorkerThread();

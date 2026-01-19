@@ -15,7 +15,7 @@ ThreadPool::~ThreadPool() {
   stop_ = true;
   cv_.notify_all();
 
-  for (std::thread &worker : workers_) {
+  for (auto &worker : workers_) {
     if (worker.joinable()) {
       worker.join();
     }
@@ -40,12 +40,21 @@ void ThreadPool::WorkerThread() {
   }
 }
 
-void ThreadPool::submit(std::function<void()> task) {
-  {
-    std::scoped_lock lck(queue_mutex_);
-    tasks_.push(task);
-  }
-  cv_.notify_one();
+template <typename F, typename... Args>
+std::future<std::invoke_result_t<F, Args...>>
+ThreadPool::submit(F &&f, Args &&...args) {
+  using ReturnType = std::future<std::invoke_result_t<F, Args...>>;
+
+  auto task = std::make_unique<std::packaged_task<ReturnType()>>(
+      std::bind(std::forward<F>(f), std::forward<Args...>(args...)));
 }
+
+// void ThreadPool::submit(std::function<void()> task) {
+//   //   {
+//   //     std::scoped_lock lck(queue_mutex_);
+//   //     tasks_.push(task);
+//   //   }
+//   //   cv_.notify_one();
+// }
 
 } // namespace ThreadPool
