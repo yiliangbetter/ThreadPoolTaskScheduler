@@ -19,7 +19,21 @@ public:
   ~ThreadPool();
 
   template <typename F, typename... Args>
-  std::future<std::invoke_result_t<F, Args...>> submit(F &&f, Args &&...args);
+  std::future<std::invoke_result_t<F, Args...>> submit(F &&f, Args &&...args) {
+    using ReturnType = std::future<std::invoke_result_t<F, Args...>>;
+
+    auto task = std::make_unique<std::packaged_task<ReturnType()>>(
+        std::bind(std::forward<F>(f), std::forward<Args...>(args...)));
+
+    auto res{task->get_future()};
+    // condition variable + mutex
+    {
+      std::scoped_lock lck{queue_mutex_};
+      tasks_.push([tsk = std::move(task)]() { (*tsk)(); });
+    }
+    cv_.notify_one();
+    return res;
+  }
 
 private:
   void WorkerThread();
