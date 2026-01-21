@@ -22,14 +22,15 @@ public:
   std::future<std::invoke_result_t<F, Args...>> submit(F &&f, Args &&...args) {
     using ReturnType = std::future<std::invoke_result_t<F, Args...>>;
 
-    auto task = std::make_unique<std::packaged_task<ReturnType()>>(
-        std::bind(std::forward<F>(f), std::forward<Args...>(args...)));
+    auto task = std::make_shared<
+        std::packaged_task<std::invoke_result_t<F, Args...>()>>(
+        std::bind(std::forward<F>(f), std::forward<Args>(args)...));
 
-    auto res{task->get_future()};
+    ReturnType res = task->get_future();
     // condition variable + mutex
     {
       std::scoped_lock lck{queue_mutex_};
-      tasks_.push([tsk = std::move(task)]() { (*tsk)(); });
+      tasks_.push([task]() { (*task)(); });
     }
     cv_.notify_one();
     return res;
