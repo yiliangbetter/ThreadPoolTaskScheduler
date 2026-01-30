@@ -15,7 +15,7 @@ namespace ThreadPool {
 
 class ThreadPool {
 public:
-  explicit ThreadPool(size_t numThreads);
+  explicit ThreadPool(size_t num_threads, size_t max_queue_size);
   ~ThreadPool();
 
   template <typename F, typename... Args>
@@ -42,7 +42,9 @@ private:
   std::queue<std::function<void()>> tasks_;
   std::mutex queue_mutex_;
   std::condition_variable cv_;
+  std::condition_variable queue_full_;
   size_t num_threads_;
+  size_t max_queue_size_;
   bool stop_;
 };
 

@@ -3,7 +3,8 @@
 
 namespace ThreadPool {
 
-ThreadPool::ThreadPool(size_t numThreads) : num_threads_(numThreads) {
+ThreadPool::ThreadPool(size_t num_threads, size_t max_queue_size)
+    : num_threads_(num_threads), max_queue_size_{max_queue_size} {
   // Initialize thread pool with numThreads
   workers_.reserve(num_threads_);
   for (size_t i = 0; i < num_threads_; ++i) {

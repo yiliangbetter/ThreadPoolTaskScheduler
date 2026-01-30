@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-  ThreadPool::ThreadPool tp{10};
+  ThreadPool::ThreadPool tp{10, 50};
   std::function<int()> task1 = []() {
     std::cout << "I am task one" << std::endl;
     return 1;
