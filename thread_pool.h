@@ -29,7 +29,8 @@ public:
     ReturnType res = task->get_future();
     // condition variable + mutex
     {
-      std::scoped_lock lck{queue_mutex_};
+      std::unique_lock<std::mutex> lck{queue_mutex_};
+      queue_full_.wait(lck, [&]() { return tasks_.size() <= max_queue_size_; });
       tasks_.push([task]() { (*task)(); });
     }
     cv_.notify_one();
