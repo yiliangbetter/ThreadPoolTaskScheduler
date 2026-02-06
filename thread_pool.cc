@@ -4,7 +4,10 @@
 namespace ThreadPool {
 
 ThreadPool::ThreadPool(size_t num_threads, size_t max_queue_size)
-    : num_threads_(num_threads), max_queue_size_{max_queue_size}, stop_(false) {
+    : num_threads_(num_threads), max_queue_size_{max_queue_size}, stop_(false),
+      tasks{[](Task t1, Task t2) {
+        return static_cast<int>(t1.priority) > static_cast<int>(t2.priority);
+      }} {
   // Initialize thread pool with numThreads
   workers_.reserve(num_threads_);
   for (size_t i = 0; i < num_threads_; ++i) {
@@ -36,9 +39,9 @@ void ThreadPool::WorkerThread() {
 
       task = std::move(tasks_.front());
       tasks_.pop();
+      task.callable();
       queue_full_.notify_one();
     }
-    task();
   }
 }
 

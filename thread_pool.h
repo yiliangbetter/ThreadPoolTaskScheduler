@@ -3,6 +3,7 @@
 
 #include <condition_variable>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <future>
 #include <mutex>
@@ -13,25 +14,30 @@
 
 namespace ThreadPool {
 
+enum class Priority: int8_t{
+  high = 0,
+  medium = 1,
+  low = 2,
+}
+
+struct Task
+{
+  Priority priority;
+  std::function<int()> callable;
+};
+
 class ThreadPool {
 public:
   explicit ThreadPool(size_t num_threads, size_t max_queue_size);
   ~ThreadPool();
 
-  template <typename F, typename... Args>
-  std::future<std::invoke_result_t<F, Args...>> submit(F &&f, Args &&...args) {
-    using ReturnType = std::future<std::invoke_result_t<F, Args...>>;
-
-    auto task = std::make_shared<
-        std::packaged_task<std::invoke_result_t<F, Args...>()>>(
-        std::bind(std::forward<F>(f), std::forward<Args>(args)...));
-
-    ReturnType res = task->get_future();
+  std::future<int> submit(Task &task) {
+    std::future<int> res = task->get_future();
     // condition variable + mutex
     {
       std::unique_lock<std::mutex> lck{queue_mutex_};
-      queue_full_.wait(lck, [&]() { return tasks_.size() <= max_queue_size_; });
-      tasks_.push([task]() { (*task)(); });
+      queue_full_.wait(lck, [&]() { return tasks_.size() < max_queue_size_; });
+      tasks_.push([task = std::move(task)]() { task.callable(); });
     }
     cv_.notify_one();
     return res;
@@ -40,7 +46,8 @@ public:
 private:
   void WorkerThread();
   std::vector<std::thread> workers_;
-  std::queue<std::function<void()>> tasks_;
+  std::priority_queue<Task, std::vector<Task>, std::function<bool(Task, Task)>>
+      tasks_;
   std::mutex queue_mutex_;
   std::condition_variable cv_;
   std::condition_variable queue_full_;
